@@ -27,17 +27,17 @@ public class MainMenuDemo extends javax.swing.JFrame {
     String price;
     int i;
 
-    String[] sItems = new String[14];
-    Double[][] dValues = new Double[2][14];
     FileReader in;
     BufferedReader readFile;
     String lineOfText;
-    String File = "StockList.txt";
+ //   String File = "StockList.txt";
     String[] inventory;
-
+    
     String csvFile = "StockList.csv";
     String line = "";
     String cvsSplitBy = ",";
+        
+    DefaultListModel model1 = new DefaultListModel();
     List<Item> ItemList = new ArrayList<Item>();
     
     // Format numeric values to two decimal places and currency
@@ -48,10 +48,6 @@ public class MainMenuDemo extends javax.swing.JFrame {
      */
     public MainMenuDemo() {
         initComponents();
-        
-       
-        
-       // readPrintDisplay.append(file.fileRead() + newline);
     }
 
     /**
@@ -80,26 +76,23 @@ public class MainMenuDemo extends javax.swing.JFrame {
         jTextAreaDP = new javax.swing.JTextArea();
         jLabelDP = new javax.swing.JLabel();
         DisplayInventory = new javax.swing.JPanel();
-        DispInvLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         textAreaDis = new javax.swing.JTextArea();
         EditInv = new javax.swing.JPanel();
         EditInvLabel = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jEditInvList = new javax.swing.JList<>();
+        jEditInvList = new javax.swing.JList<String>();
         EditPrices = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jEditPriceList = new javax.swing.JList();
-        SelectItemEPButton = new javax.swing.JButton();
+        SelectItemButton = new javax.swing.JButton();
         jProductLabel = new javax.swing.JLabel();
         ProdTextField = new javax.swing.JTextField();
         jPriceLabel = new javax.swing.JLabel();
         PriceTextField = new javax.swing.JTextField();
         SavePriceButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        MenuFile = new javax.swing.JMenu();
-        jMenuExit = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -168,7 +161,7 @@ public class MainMenuDemo extends javax.swing.JFrame {
 
         jLabelWW.setFont(new java.awt.Font("Lemon/Milk", 0, 24)); // NOI18N
         jLabelWW.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelWW.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/cptdemo/Tuck 'N' Roll Logo.png"))); // NOI18N
+        jLabelWW.setText("Tuck 'N' Roll");
 
         WelcDispInvButton.setText("Display Inventory");
         WelcDispInvButton.addActionListener(new java.awt.event.ActionListener() {
@@ -178,6 +171,11 @@ public class MainMenuDemo extends javax.swing.JFrame {
         });
 
         WelcEditInvButton.setText("Edit Inventory");
+        WelcEditInvButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WelcEditInvButtonActionPerformed(evt);
+            }
+        });
 
         WelcDispPricesButton.setText("Display Prices");
         WelcDispPricesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -198,48 +196,47 @@ public class MainMenuDemo extends javax.swing.JFrame {
         WelcomeWindowLayout.setHorizontalGroup(
             WelcomeWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WelcomeWindowLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(WelcomeWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WelcomeWindowLayout.createSequentialGroup()
-                        .addComponent(WelcDispPricesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(WelcEditPricesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WelcomeWindowLayout.createSequentialGroup()
-                        .addComponent(WelcDispInvButton)
-                        .addGap(114, 114, 114)
-                        .addComponent(WelcEditInvButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WelcomeWindowLayout.createSequentialGroup()
-                .addContainerGap(201, Short.MAX_VALUE)
-                .addComponent(jLabelWW, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(162, 162, 162))
+                .addGroup(WelcomeWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(WelcomeWindowLayout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabelWW, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(WelcomeWindowLayout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addGroup(WelcomeWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(WelcDispPricesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(WelcDispInvButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(69, 69, 69)
+                        .addGroup(WelcomeWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(WelcEditPricesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(WelcEditInvButton, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
         WelcomeWindowLayout.setVerticalGroup(
             WelcomeWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WelcomeWindowLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelWW, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(106, 106, 106)
+                .addComponent(jLabelWW, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
                 .addGroup(WelcomeWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(WelcDispInvButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(WelcEditInvButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                    .addComponent(WelcEditInvButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(WelcDispInvButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
                 .addGroup(WelcomeWindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(WelcEditPricesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(WelcDispPricesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                    .addComponent(WelcDispPricesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(WelcEditPricesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         DynamicPanel.add(WelcomeWindow, "card2");
 
-        DisplayPrices.setBackground(new java.awt.Color(153, 255, 255));
+        DisplayPrices.setBackground(new java.awt.Color(255, 51, 51));
 
         jTextAreaDP.setColumns(20);
         jTextAreaDP.setRows(5);
         jTextAreaDP.setText("Inventory Prints Here:");
         jScrollPane2.setViewportView(jTextAreaDP);
 
-        jLabelDP.setFont(new java.awt.Font("BubbleGum", 0, 36)); // NOI18N
+        jLabelDP.setFont(new java.awt.Font("Lemon/Milk", 0, 18)); // NOI18N
         jLabelDP.setText("Display Prices");
 
         javax.swing.GroupLayout DisplayPricesLayout = new javax.swing.GroupLayout(DisplayPrices);
@@ -251,7 +248,7 @@ public class MainMenuDemo extends javax.swing.JFrame {
                 .addGroup(DisplayPricesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDP)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(464, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
         DisplayPricesLayout.setVerticalGroup(
             DisplayPricesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +256,7 @@ public class MainMenuDemo extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabelDP)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -268,8 +265,8 @@ public class MainMenuDemo extends javax.swing.JFrame {
         DisplayInventory.setBackground(new java.awt.Color(153, 255, 255));
         DisplayInventory.setForeground(new java.awt.Color(255, 255, 255));
 
-        DispInvLabel.setFont(new java.awt.Font("BubbleGum", 0, 36)); // NOI18N
-        DispInvLabel.setText("Display Inventory");
+        jLabel2.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        jLabel2.setText("Display Inventory");
 
         textAreaDis.setColumns(20);
         textAreaDis.setRows(5);
@@ -282,9 +279,9 @@ public class MainMenuDemo extends javax.swing.JFrame {
             .addGroup(DisplayInventoryLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(DisplayInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 941, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
                     .addGroup(DisplayInventoryLayout.createSequentialGroup()
-                        .addComponent(DispInvLabel)
+                        .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -292,24 +289,24 @@ public class MainMenuDemo extends javax.swing.JFrame {
             DisplayInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DisplayInventoryLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(DispInvLabel)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         DynamicPanel.add(DisplayInventory, "card7");
 
-        EditInv.setBackground(new java.awt.Color(153, 255, 255));
+        EditInv.setBackground(new java.awt.Color(255, 153, 255));
         EditInv.setForeground(new java.awt.Color(255, 255, 255));
 
-        EditInvLabel.setFont(new java.awt.Font("BubbleGum", 0, 36)); // NOI18N
+        EditInvLabel.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
         EditInvLabel.setText("Edit Inventory");
 
-        jEditInvList.setModel(new javax.swing.AbstractListModel<String>() {
+        jEditInvList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane4.setViewportView(jEditInvList);
 
@@ -318,25 +315,28 @@ public class MainMenuDemo extends javax.swing.JFrame {
         EditInvLayout.setHorizontalGroup(
             EditInvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EditInvLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(EditInvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(EditInvLabel)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(675, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78)
+                .addComponent(EditInvLabel)
+                .addContainerGap(249, Short.MAX_VALUE))
         );
         EditInvLayout.setVerticalGroup(
             EditInvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EditInvLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(EditInvLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGroup(EditInvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(EditInvLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(EditInvLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(EditInvLayout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         DynamicPanel.add(EditInv, "card7");
 
-        EditPrices.setBackground(new java.awt.Color(153, 255, 255));
+        EditPrices.setBackground(new java.awt.Color(255, 153, 153));
 
         jEditPriceList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -345,10 +345,10 @@ public class MainMenuDemo extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jEditPriceList);
 
-        SelectItemEPButton.setText("Select Item");
-        SelectItemEPButton.addActionListener(new java.awt.event.ActionListener() {
+        SelectItemButton.setText("Select Item");
+        SelectItemButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SelectItemEPButtonActionPerformed(evt);
+                SelectItemButtonActionPerformed(evt);
             }
         });
 
@@ -357,9 +357,11 @@ public class MainMenuDemo extends javax.swing.JFrame {
         jPriceLabel.setText("Price");
 
         SavePriceButton.setText("Save");
-
-        jLabel1.setFont(new java.awt.Font("BubbleGum", 0, 36)); // NOI18N
-        jLabel1.setText("Edit Prices");
+        SavePriceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavePriceButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout EditPricesLayout = new javax.swing.GroupLayout(EditPrices);
         EditPrices.setLayout(EditPricesLayout);
@@ -368,12 +370,9 @@ public class MainMenuDemo extends javax.swing.JFrame {
             .addGroup(EditPricesLayout.createSequentialGroup()
                 .addGroup(EditPricesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(EditPricesLayout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(SelectItemEPButton))
-                    .addGroup(EditPricesLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
+                        .addGap(25, 25, 25)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
+                        .addGap(43, 43, 43)
                         .addGroup(EditPricesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jProductLabel)
                             .addComponent(jPriceLabel))
@@ -383,18 +382,20 @@ public class MainMenuDemo extends javax.swing.JFrame {
                             .addComponent(PriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(SavePriceButton)))
                     .addGroup(EditPricesLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(520, Short.MAX_VALUE))
+                        .addGap(42, 42, 42)
+                        .addComponent(SelectItemButton)))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         EditPricesLayout.setVerticalGroup(
             EditPricesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EditPricesLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(EditPricesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(EditPricesLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addContainerGap(42, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(EditPricesLayout.createSequentialGroup()
+                        .addGap(94, 94, 94)
                         .addGroup(EditPricesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jProductLabel)
                             .addComponent(ProdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -403,33 +404,13 @@ public class MainMenuDemo extends javax.swing.JFrame {
                             .addComponent(jPriceLabel)
                             .addComponent(PriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(48, 48, 48)
-                        .addComponent(SavePriceButton))
-                    .addGroup(EditPricesLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(SelectItemEPButton)
-                .addContainerGap(48, Short.MAX_VALUE))
+                        .addComponent(SavePriceButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(SelectItemButton)
+                .addGap(38, 38, 38))
         );
 
         DynamicPanel.add(EditPrices, "card8");
-
-        MenuFile.setText("File");
-        MenuFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuFileActionPerformed(evt);
-            }
-        });
-
-        jMenuExit.setText("Exit");
-        jMenuExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuExitActionPerformed(evt);
-            }
-        });
-        MenuFile.add(jMenuExit);
-
-        jMenuBar1.add(MenuFile);
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
@@ -459,72 +440,80 @@ public class MainMenuDemo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void DispInvButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispInvButtonActionPerformed
-        // Sets Dynamic Panel to selected panel & performs action of that panel
         p = DisplayInventory;
         ChangePanel();
         DisplayInventory();
     }//GEN-LAST:event_DispInvButtonActionPerformed
 
-    private void MenuFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuFileActionPerformed
-
-    }//GEN-LAST:event_MenuFileActionPerformed
-
-    private void jMenuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuExitActionPerformed
-        // Exits program safely when clicked
-        System.exit(0);
-    }//GEN-LAST:event_jMenuExitActionPerformed
-
     private void DispPricesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispPricesButtonActionPerformed
-        // Sets Dynamic Panel to selected panel & performs action of that panel
+        // Sets indicator to selected frame and changes the panel to it
         p = DisplayPrices;
         ChangePanel();
         DisplayPrices();
     }//GEN-LAST:event_DispPricesButtonActionPerformed
 
     private void EditPricesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditPricesButtonActionPerformed
-        // Sets Dynamic Panel to selected panel & performs action of that panel
+        // Sets indicator to selected frame and changes the panel to it
         p = EditPrices;
         ChangePanel();
-        jListEditPrices();
+        DisplayList();
+        jEditPriceList.setModel(model1);
     }//GEN-LAST:event_EditPricesButtonActionPerformed
 
     private void WelcDispInvButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WelcDispInvButtonActionPerformed
-        // Sets Dynamic Panel to selected panel & performs action of that panel
         p = DisplayInventory;
         ChangePanel();
         DisplayInventory();
     }//GEN-LAST:event_WelcDispInvButtonActionPerformed
 
     private void WelcDispPricesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WelcDispPricesButtonActionPerformed
-        // Sets Dynamic Panel to selected panel & performs action of that panel
+        // Sets indicator to selected frame and changes the panel to it
         p = DisplayPrices;
         ChangePanel();
         DisplayPrices();
     }//GEN-LAST:event_WelcDispPricesButtonActionPerformed
 
     private void WelcEditPricesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WelcEditPricesButtonActionPerformed
-        // Sets Dynamic Panel to selected panel & performs action of that panel
+        // Sets indicator to selected frame and changes the panel to it
         p = EditPrices;
         ChangePanel();
-        jListEditPrices();
+        DisplayList();
+        jEditPriceList.setModel(model1);
     }//GEN-LAST:event_WelcEditPricesButtonActionPerformed
 
     private void EditInvButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditInvButtonActionPerformed
        p = EditInv;
        ChangePanel();
-       DefaultListModel model1 = new DefaultListModel();
-        for (String sItem: sItems) {
-            model1.addElement(sItem);
-        }
-        jEditInvList.setModel(model1);
+       DisplayList();
+       jEditInvList.setModel(model1);
     }//GEN-LAST:event_EditInvButtonActionPerformed
 
-    private void SelectItemEPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectItemEPButtonActionPerformed
-        // Identifies product choice from jList and displays related values in their fields
+    private void SelectItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectItemButtonActionPerformed
+        // TODO add your handling code here:
         int i = jEditPriceList.getSelectedIndex();
-        ProdTextField.setText(sItems[i]);
-        PriceTextField.setText(String.format("%1.2f", dValues[0][i]));
-    }//GEN-LAST:event_SelectItemEPButtonActionPerformed
+        ProdTextField.setText(ItemList.get(i).getName());
+        PriceTextField.setText(String.format("%1.2f", ItemList.get(i).getPrice()));
+    }//GEN-LAST:event_SelectItemButtonActionPerformed
+
+    private void WelcEditInvButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WelcEditInvButtonActionPerformed
+        // TODO add your handling code here:
+       p = EditInv;
+       ChangePanel();
+       DisplayList();
+    }//GEN-LAST:event_WelcEditInvButtonActionPerformed
+
+    private void SavePriceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavePriceButtonActionPerformed
+        // TODO add your handling code here:
+        Double dHold = Double.parseDouble(PriceTextField.getText());
+        int i = jEditPriceList.getSelectedIndex();
+        ItemList.forEach((x) -> {        
+            if (ItemList.indexOf(x) == i) {
+                x.dPrice = dHold;
+                System.out.println(x.dPrice);
+            }
+        }); 
+        Save();
+    }//GEN-LAST:event_SavePriceButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -572,118 +561,60 @@ public class MainMenuDemo extends javax.swing.JFrame {
                 object.setVisible(true);
             }
         });
-      
-        // read file so arrays are preloaded with information.
+        // Read file so arrays are preloaded with information.
         // Needed because you do not know which button the user will
         // press first
         object.ReadFile();
-        object.showFileContents();
-    
-    
-    }
-    
-    public void showFileContents() {
-        System.out.println("sItems Contents:");
-        for (int x = 0; x < sItems.length; x++) {
-            System.out.print(sItems[x] + ",");
-        }
-
-        System.out.println("dValues Contents:");
-        for (int x = 0; x < dValues.length; x++) {
-            for (int y = 0; y < dValues[x].length; y++) {
-                System.out.print(dValues[x][y] + ",");
-            }
-        }
     }
     
     public void ChangePanel() {
-        // Changes the status of the dynamic panel to the selection and SMTH ABOUT SAVE
         DynamicPanel.removeAll();
         DynamicPanel.add(p);
         DynamicPanel.repaint();
         DynamicPanel.revalidate();
-        Save();
     }
 
     public void DisplayPrices() {
-        // Sets the textarea to output the stored products and prices 
+        // Sets the text area to output the stored products and prices 
         PriceText = String.format("%-25s \t %-18s %n", "Item Name", "Price");
         PriceText += String.format("%-30s \t %-20s %n", "----------------", "--------");
-
-        for (int x = 0; x < sItems.length; x++) {
-            PriceText += String.format("%-28s \t %-18s %n %n", sItems[x], dValues[0][x]);
+        
+        for (Item x: ItemList) {
+            PriceText += String.format("%-28s \t %-18s %n %n", x.sName, x.dPrice);
             jTextAreaDP.setText(PriceText);
         }
+        
+
         PriceText = "";
     }
     
     public void DisplayInventory() {
-        // Sets the textarea to output the stored products and quantities 
+        // Sets the text area to output the stored products and prices 
         InvText = String.format("%-25s \t %-18s %n", "Item Name", "Quantity");
         InvText += String.format("%-30s \t %-20s %n", "----------------", "------------");
 
-        for (int x = 0; x < sItems.length; x++) {
-            InvText += String.format("%-28s \t %-18s %n %n", sItems[x], dValues[1][x]);
+        ItemList.stream().map((x) -> {
+            InvText += String.format("%-28s \t %-18s %n %n", x.sName, x.dStock);
+            return x;
+        }).forEach((_item) -> {
             textAreaDis.setText(InvText);
-        }
+        });
 
         InvText = "";
     }
 
-    public void EditPrices() {
-        // Use this for the actual editing
-    }
-    
-    public void jListEditPrices() {
-        // Creates an instance of jList and displays the products in the list
-        DefaultListModel model1 = new DefaultListModel();
-        for (String sItem: sItems) {
-            model1.addElement(sItem);
-        }
-        jEditPriceList.setModel(model1);
-    }
-
     public void ReadFile() {
-        File textFile = new File(File);
         
          try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 
             while ((line = br.readLine()) != null) {
-                int count = 0;
                 // use comma as separator
                 String[] inventory = line.split(cvsSplitBy);
 
                 ItemList.add(new Item(inventory[0],Double.parseDouble(inventory[1]),Double.parseDouble(inventory[2])));
                
-               
                 System.out.println("||   "+ inventory[0] +" , "+ inventory[1] + " , " + inventory[2] + "    ||");
-                count++;
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-/*
-        try {
-            in = new FileReader(textFile);
-            readFile = new BufferedReader(in);
-            for (int i = 0; i < sItems.length; i++) {
-                lineOfText = readFile.readLine();
-
-                sItems[i] = lineOfText;
-                System.out.println(sItems[i]);
-            }
-            for (Double[] dValue : dValues) {
-                for (int c = 0; c < dValue.length; c++) {
-                    lineOfText = readFile.readLine();
-                    Double dNum = Double.parseDouble(lineOfText);
-                    dValue[c] = dNum;
-                    System.out.println(dValue[c]);
-                }
-            }
-
-            readFile.close();
-            in.close();
 
         } catch (FileNotFoundException e) {
             System.out.println("file does not exist or could not be found.");
@@ -691,34 +622,36 @@ public class MainMenuDemo extends javax.swing.JFrame {
         } catch (IOException e) {
             System.out.println("Problem reading file.");
             System.out.println("IOException: " + e.getMessage());
-        }*/
+        }
     }
 
     public void Save() {
         try {
             //Code in here must interact with buttons to edit file
-            try (PrintWriter output = new PrintWriter(File)) {
+            try (PrintWriter output = new PrintWriter(csvFile)) {
                 //Code in here must interact with buttons to edit file
-                for (String sItem : sItems) {
-                    output.println(sItem);
-                }
-                for (Double[] dValue : dValues) {
-                    for (Double dValue1 : dValue) {
-                        output.println(dValue1);
-                    }
-                }
+                ItemList.forEach((x) -> {
+                    output.print(x.sName + "," + x.dPrice + "," + x.dStock + "\n");
+                });
                 output.close();
             }
+            
         } catch (IOException ex) {
             System.out.format("ERROR; %s\n", ex);
         }
+    }
+    
+    public void DisplayList() {
+        model1.clear();
+        ItemList.forEach((x) -> {
+            model1.addElement(x.sName);
+        }); 
     }
         
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ButtonsPanel;
     private javax.swing.JButton DispInvButton;
-    private javax.swing.JLabel DispInvLabel;
     private javax.swing.JButton DispPricesButton;
     private javax.swing.JPanel DisplayInventory;
     private javax.swing.JPanel DisplayPrices;
@@ -728,11 +661,10 @@ public class MainMenuDemo extends javax.swing.JFrame {
     private javax.swing.JLabel EditInvLabel;
     private javax.swing.JPanel EditPrices;
     private javax.swing.JButton EditPricesButton;
-    private javax.swing.JMenu MenuFile;
     private javax.swing.JTextField PriceTextField;
     private javax.swing.JTextField ProdTextField;
     private javax.swing.JButton SavePriceButton;
-    private javax.swing.JButton SelectItemEPButton;
+    private javax.swing.JButton SelectItemButton;
     private javax.swing.JButton WelcDispInvButton;
     private javax.swing.JButton WelcDispPricesButton;
     private javax.swing.JButton WelcEditInvButton;
@@ -740,12 +672,11 @@ public class MainMenuDemo extends javax.swing.JFrame {
     private javax.swing.JPanel WelcomeWindow;
     private javax.swing.JList<String> jEditInvList;
     private javax.swing.JList jEditPriceList;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelDP;
     private javax.swing.JLabel jLabelWW;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuExit;
     private javax.swing.JLabel jPriceLabel;
     private javax.swing.JLabel jProductLabel;
     private javax.swing.JScrollPane jScrollPane1;
